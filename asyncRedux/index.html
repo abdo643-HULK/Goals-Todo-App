@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Udacity Todos Goals</title>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/redux/3.7.2/redux.min.js"></script>
+		<script src="https://unpkg.com/react@16.3.0-alpha.1/umd/react.development.js"></script>
+		<script src="https://unpkg.com/react-dom@16.3.0-alpha.1/umd/react-dom.development.js"></script>
+		<script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+	</head>
+	<body>
+		<div>
+			<label>
+				<h1>Todo List</h1>
+				<input id="todo" type="text" placeholder="Add Todo" />
+				<button onclick="addTodo()">Add Todo</button>
+			</label>
+			<ul id="todos"></ul>
+		</div>
+		<div>
+			<label>
+				<h1>Goal List</h1>
+				<input id="goal" type="text" placeholder="Add Goal" />
+				<button onclick="addGoal()">Add Goal</button>
+			</label>
+			<ul id="goals"></ul>
+		</div>
+		<hr />
+		<div id="app"></div>
+		<script src="reduxMW.js"></script>
+		<script type="text/babel" src="index.js"></script>
+	</body>
+</html>
