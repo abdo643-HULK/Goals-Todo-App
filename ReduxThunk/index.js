@@ -1,4 +1,4 @@
-function List({ items = {}, remove, toggle }) {
+function List({ items = [], remove, toggle }) {
 	return (
 		<ul>
 			{items.map((item) => (
@@ -25,33 +25,15 @@ class Todos extends React.Component {
 		e.preventDefault();
 		const name = this.input.value;
 		const { store } = this.props;
-		return API.saveTodo(name)
-			.then((todo) => {
-				store.dispatch(addTodoAction(todo));
-				this.input.value = '';
-			})
-			.catch(() => {
-				alert('There was an error');
-			});
+		store.dispatch(handleAddTodo(name, () => (this.input.value = '')));
 	};
 
 	removeItem = (todo) => {
-		this.props.store.dispatch(removeTodoAction(todo.id));
-		return API.deleteTodo(todo.id).catch(() => {
-			this.props.store.dispatch(addTodoAction(todo));
-			alert('An error occured');
-		});
-		// return API.deleteTodo(todo.id).then(() =>
-		// 	this.props.store.dispatch(removeTodoAction(todo.id))
-		// );
+		this.props.store.dispatch(handleDeleteTodo(todo));
 	};
 
 	toggleItem = (id) => {
-		this.props.store.dispatch(toggleTodoAction(id));
-		return API.saveTodoToggle(id).catch(() => {
-			this.props.store.dispatch(toggleTodoAction(id));
-			alert('An error occured');
-		});
+		this.props.store.dispatch(handleToggleTodo(id));
 	};
 
 	render() {
@@ -81,22 +63,11 @@ class Goals extends React.Component {
 		e.preventDefault();
 		const name = this.input.value;
 		const { store } = this.props;
-		return API.saveGoal(name)
-			.then((goal) => {
-				store.dispatch(addGoalAction(goal));
-				this.input.value = '';
-			})
-			.catch(() => {
-				alert('There was an error');
-			});
+		store.dispatch(handleAddGoal(name, () => (this.input.value = '')));
 	};
 
 	removeItem = (goal) => {
-		this.props.store.dispatch(removeTodoAction(goal.id));
-		return API.deleteTodo(goal.id).catch(() => {
-			this.props.store.dispatch(addTodoAction(goal));
-			alert('An error occured');
-		});
+		this.props.store.dispatch(handleDeleteGoal(goal));
 	};
 
 	render() {
@@ -120,11 +91,9 @@ class Goals extends React.Component {
 class App extends React.Component {
 	componentDidMount() {
 		const { store } = this.props;
-		Promise.all([API.fetchTodos(), API.fetchGoals()]).then(
-			([todos, goals]) => {
-				store.dispatch(receiveDataAction(todos, goals));
-			}
-		);
+
+		store.dispatch(handleInitialData());
+
 		store.subscribe(() => this.forceUpdate());
 	}
 
