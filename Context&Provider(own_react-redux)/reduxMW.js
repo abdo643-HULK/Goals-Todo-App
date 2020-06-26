@@ -84,6 +84,7 @@ function handleDeleteTodo(todo) {
 
 function handleToggleTodo(id) {
 	return (dispatch) => {
+		dispatch(toggleTodoAction(id));
 		return API.saveTodoToggle(id).catch(() => {
 			dispatch(toggleTodoAction(id));
 			alert('An error occured');
@@ -106,7 +107,7 @@ function handleAddGoal(name, cb) {
 
 function handleDeleteGoal(goal) {
 	return (dispatch) => {
-		dispatch(removeTodoAction(goal.id));
+		dispatch(removeGoalAction(goal.id));
 		return API.deleteGoal(goal.id).catch(() => {
 			dispatch(addGoalAction(goal));
 			alert('An error occured');
@@ -190,10 +191,3 @@ const store = Redux.createStore(
 	}),
 	Redux.applyMiddleware(ReduxThunk.default, checker, logger)
 );
-
-function generateId() {
-	return (
-		Math.random().toString(36).substring(2) +
-		new Date().getTime().toString(36)
-	);
-}

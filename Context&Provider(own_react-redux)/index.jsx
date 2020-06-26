@@ -1,6 +1,3 @@
-const { func } = require('prop-types');
-const { Component } = require('react');
-
 function List({ items = [], remove, toggle }) {
 	return (
 		<ul>
@@ -130,7 +127,7 @@ function connect(mapStateToProps) {
 					this.forceUpdate();
 				});
 			}
-			componentWillMount() {
+			componentWillUnmount() {
 				this.unsubscribe;
 			}
 			render() {
@@ -193,9 +190,11 @@ class Provider extends React.Component {
 	render() {
 		const { store } = this.props;
 
-		<Context.Provider value={store}>
-			{this.props.children}
-		</Context.Provider>;
+		return (
+			<Context.Provider value={store}>
+				{this.props.children}
+			</Context.Provider>
+		);
 	}
 }
 
